@@ -48,9 +48,9 @@ export default function SmallCards() {
 
 const DIV = styled.div`
   width: 85%;
+  margin: 25px auto;
   box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px,
     rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
-  margin: 25px auto;
   height: 130px;
   border-radius: 10px;
   .main_container {
