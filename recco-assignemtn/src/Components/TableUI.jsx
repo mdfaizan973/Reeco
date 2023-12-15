@@ -1,15 +1,15 @@
 // import React from 'react'
 import styled from "styled-components";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchData } from "../redux/actions";
 import Loading from "./Loading";
 export default function TableUI() {
   const dispatch = useDispatch();
   const { data, loading, error } = useSelector((state) => state);
-  // const prod_data = JSON.stringify(data);
-  console.log(data);
-
+  const [show, setShow] = useState({});
+  const [brandName, setBrandName] = useState({});
+  const [editData, seteditData] = useState({});
   useEffect(() => {
     dispatch(fetchData());
   }, [dispatch]);
@@ -25,8 +25,61 @@ export default function TableUI() {
   if (error) {
     return <div>Error: {error}</div>;
   }
+
+  const handleButtonClick = (value) => {
+    setShow({ [value]: true });
+  };
+
+  const handleEditModal = (id) => {
+    document.getElementById("edit_modal").showModal();
+    const found_e_Data = data.find((item) => item.id === id);
+    seteditData(found_e_Data);
+  };
+  const handle_close_dialog = () => {
+    document.getElementById("edit_modal").closeModal();
+  };
+  const handlemissingModal = (id) => {
+    document.getElementById("missing_moodal").showModal();
+    const foundData = data.find((item) => item.id === id);
+    setBrandName(foundData);
+  };
   return (
     <DIV>
+      <dialog id="edit_modal">
+        <div className="modal-content">
+          <form method="dialog">
+            <div className="text-con">
+              <h5>{editData.description}</h5>
+              <p>{editData.brand}</p>
+            </div>
+            <button className="" onClick={handle_close_dialog}>
+              X
+            </button>
+          </form>
+          <div className="content-edit">
+            <div className="img_con">
+              <img src={editData.image} />
+            </div>
+          </div>
+        </div>
+      </dialog>
+      <dialog id="missing_moodal">
+        <div className="modal-content">
+          <form method="dialog">
+            <h3>Missing Product</h3>
+            <button className="" onClick={handle_close_dialog}>
+              X
+            </button>
+          </form>
+          <div>
+            <h3>Is {brandName.brand}.. urgent?</h3>
+          </div>
+          <div className="confem_buttons">
+            <button>NO</button>
+            <button>YES</button>
+          </div>
+        </div>
+      </dialog>
       <table>
         <thead>
           <tr>
@@ -47,11 +100,7 @@ export default function TableUI() {
                 <img src={ele.image} alt={ele.brand} className="logo" />
               </td>
 
-              <td className="discription">
-                {/* Lorem Ipsum Dolor Sit Amet Consectetur Adipiscing Elit Sed
-                Eiusmod */}
-                {ele.description}
-              </td>
+              <td className="discription">{ele.description}</td>
               <td className="brand">{ele.brand}</td>
               <td>${ele.price}</td>
               <td>{ele.quantity}</td>
@@ -60,7 +109,9 @@ export default function TableUI() {
                 <button className="approved">Approved</button>
               </td>
               <td className="actions">
-                <button>✅</button> <button>❌</button> <button>Edit</button>{" "}
+                <button onClick={() => handleButtonClick("show")}>✅</button>
+                <button onClick={() => handlemissingModal(ele.id)}>❌</button>
+                <button onClick={() => handleEditModal(ele.id)}>Edit</button>
               </td>
             </tr>
           ))}
@@ -127,6 +178,59 @@ const DIV = styled.div`
     border: none;
     background-color: white;
     cursor: pointer;
+  }
+
+  #edit_modal,
+  #missing_moodal {
+    position: fixed;
+    top: 30%;
+    left: 30%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    padding: 1rem;
+    border-radius: 0.75rem;
+    background-color: white;
+    border: none;
+    width: 25%;
+  }
+  #edit_modal,
+  #missing_moodal .modal-content {
+    background-color: #fff;
+    padding: 1rem;
+    border-radius: 0.75rem;
+    text-align: center;
+  }
+  form {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  form button {
+    border: none;
+    background-color: white;
+    cursor: pointer;
+    font-size: 1.2rem;
+  }
+  .confem_buttons {
+    display: flex;
+    justify-content: end;
+  }
+  .confem_buttons button {
+    border: none;
+    padding: 3px;
+    font-size: 1rem;
+    margin-left: 15px;
+    background-color: white;
+    cursor: pointer;
+  }
+  .content-edit img {
+    width: 100%;
+  }
+  .img_con {
+    width: 30%;
+  }
+  .text-con {
+    text-align: start;
   }
 `;
 // #db2114 - mu
