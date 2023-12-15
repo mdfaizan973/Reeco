@@ -2,6 +2,7 @@ import Navbar from "./Components/Navbar";
 import "./App.css";
 import SmallCards from "./Components/SmallCards";
 import Table from "./Components/Table";
+import YourComponent from "./Components/YourComponent";
 
 export default function App() {
   return (
@@ -9,6 +10,7 @@ export default function App() {
       <Navbar />
       <SmallCards />
       <Table />
+      <YourComponent />
     </div>
   );
 }
