@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchData } from "../redux/actions";
+import Loading from "./Loading";
 export default function TableUI() {
   const dispatch = useDispatch();
   const { data, loading, error } = useSelector((state) => state);
@@ -14,7 +15,11 @@ export default function TableUI() {
   }, [dispatch]);
 
   if (loading) {
-    return <div>Loading...</div>;
+    return (
+      <div>
+        <Loading />
+      </div>
+    );
   }
 
   if (error) {
@@ -51,8 +56,12 @@ export default function TableUI() {
               <td>${ele.price}</td>
               <td>{ele.quantity}</td>
               <td>{ele.total}</td>
-              <td>Buttons</td>
-              <td>✅ ❌ Edit</td>
+              <td>
+                <button className="approved">Approved</button>
+              </td>
+              <td className="actions">
+                <button>✅</button> <button>❌</button> <button>Edit</button>{" "}
+              </td>
             </tr>
           ))}
         </tbody>
@@ -99,4 +108,26 @@ const DIV = styled.div`
   .brand {
     width: 10%;
   }
+
+  .approved {
+    background-color: rgb(61, 202, 114);
+    color: white;
+    border: none;
+    border-radius: 20px;
+    padding: 10px 20px;
+    font-size: 12px;
+    font-weight: bold;
+    cursor: pointer;
+  }
+
+  .approved:hover {
+    background-color: darkgreen;
+  }
+  .actions button {
+    border: none;
+    background-color: white;
+    cursor: pointer;
+  }
 `;
+// #db2114 - mu
+// #f66d44  u
