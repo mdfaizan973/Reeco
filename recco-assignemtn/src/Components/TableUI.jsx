@@ -1,9 +1,25 @@
 // import React from 'react'
 import styled from "styled-components";
-
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchData } from "../redux/actions";
 export default function TableUI() {
-  const array = [1, 2, 3, 4, 5];
+  const dispatch = useDispatch();
+  const { data, loading, error } = useSelector((state) => state);
+  // const prod_data = JSON.stringify(data);
+  console.log(data);
 
+  useEffect(() => {
+    dispatch(fetchData());
+  }, [dispatch]);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
   return (
     <DIV>
       <table>
@@ -20,24 +36,21 @@ export default function TableUI() {
           </tr>
         </thead>
         <tbody>
-          {array.map((ele, i) => (
+          {data.map((ele, i) => (
             <tr key={i}>
               <td>
-                <img
-                  src="https://i.pinimg.com/564x/d8/05/5f/d8055f0a0148a3f452ff4869bfb9615b.jpg"
-                  alt="Logo"
-                  className="logo"
-                />
+                <img src={ele.image} alt={ele.brand} className="logo" />
               </td>
 
               <td className="discription">
-                Lorem Ipsum Dolor Sit Amet Consectetur Adipiscing Elit Sed
-                Eiusmod
+                {/* Lorem Ipsum Dolor Sit Amet Consectetur Adipiscing Elit Sed
+                Eiusmod */}
+                {ele.description}
               </td>
-              <td className="brand">Harmel Blak Lokakis</td>
-              <td>$300</td>
-              <td>3</td>
-              <td> 6</td>
+              <td className="brand">{ele.brand}</td>
+              <td>${ele.price}</td>
+              <td>{ele.quantity}</td>
+              <td>{ele.total}</td>
               <td>Buttons</td>
               <td>✅ ❌ Edit</td>
             </tr>
