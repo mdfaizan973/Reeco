@@ -26,10 +26,7 @@ export default function TableUI() {
     return <div>Error: {error}</div>;
   }
 
-  const handleButtonClick = (value) => {
-    setShow({ [value]: true });
-  };
-
+  console.log(show);
   const handleEditModal = (id) => {
     document.getElementById("edit_modal").showModal();
     const found_e_Data = data.find((item) => item.id === id);
@@ -42,6 +39,12 @@ export default function TableUI() {
     document.getElementById("missing_moodal").showModal();
     const foundData = data.find((item) => item.id === id);
     setBrandName(foundData);
+  };
+
+  // Approve
+  const handleButtonClick = (value) => {
+    // setShow({ [value]: true });
+    setShow(value);
   };
   return (
     <DIV>
@@ -75,8 +78,8 @@ export default function TableUI() {
             <h3>Is {brandName.brand}.. urgent?</h3>
           </div>
           <div className="confem_buttons">
-            <button>NO</button>
-            <button>YES</button>
+            <button onClick={() => handleButtonClick("no")}>NO</button>
+            <button onClick={() => handleButtonClick("yes")}>YES</button>
           </div>
         </div>
       </dialog>

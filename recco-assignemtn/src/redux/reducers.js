@@ -3,6 +3,7 @@ import {
   FETCH_DATA_REQUEST,
   FETCH_DATA_SUCCESS,
   FETCH_DATA_FAILURE,
+  UPDATE_DATA,
 } from "./actions";
 
 const initialState = {
@@ -19,6 +20,11 @@ const dataReducer = (state = initialState, action) => {
       return { ...state, loading: false, data: action.payload };
     case FETCH_DATA_FAILURE:
       return { ...state, loading: false, error: action.payload };
+    case UPDATE_DATA:
+      return {
+        ...state,
+        data: action.payload,
+      };
     default:
       return state;
   }
